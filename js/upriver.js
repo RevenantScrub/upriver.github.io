@@ -25,7 +25,8 @@ function Upriver(token) {
     self.loadBranches(selected.text(), '#parentBranch');
   });
 
-  $('#pull').click(function() {
+  $('#form').submit(function(event) {
+    event.preventDefault();
     var repo = $('#forkRepo').children('option:selected').text();
     var branch = $('#forkBranch').children('option:selected').text();
     var hash = $('#parentBranch').children('option:selected').attr('data-sha');
@@ -77,7 +78,7 @@ Upriver.prototype.loadRepos = function loadRepos(callback) {
       }.bind(this));
     }.bind(this), 6);
 
-    queue.drain = callback;
+    queue.drain(callback);
 
     repos.filter(function(repo) {
       return repo.fork;
@@ -122,7 +123,7 @@ Upriver.prototype.setCommit = function setCommit(repo, branch, sha, force) {
 };
 
 $(function() {
-  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-bs-toggle="tooltip"]').tooltip();
 
   if (sessionStorage.getItem('token')) {
     $('#signin').hide();
